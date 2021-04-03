@@ -8,13 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public interface ProductService extends JpaRepository<Product, String> {
+public interface ProductService extends CrudService<Product, String> {
 
-    List<Product> findAll();
-
-    Product findById();
-
-    Product save(Product product);
-
-    void deleteById(String id);
 }

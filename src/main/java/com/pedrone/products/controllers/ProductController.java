@@ -18,12 +18,12 @@ public class ProductController {
 
     @GetMapping
     public List<Product> findAll(){
-        return productService.findAll();
+        return (List<Product>) productService.findAll();
     }
 
     @GetMapping("/{id}")
     public Product findById(@PathVariable("id") String id){
-        return productService.findById(id).get();
+        return productService.findById(id);
     }
 
     @GetMapping("/search")
@@ -38,7 +38,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public void update(@PathVariable("id") String id, @RequestBody Product product){
-        Product productUpdated = productService.findById(id).get();
+        Product productUpdated = productService.findById(id);
         productUpdated.setName(product.getName());
         productUpdated.setDescription(product.getDescription());
         productUpdated.setPrice(product.getPrice());
