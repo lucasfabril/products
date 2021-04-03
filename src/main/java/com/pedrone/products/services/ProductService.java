@@ -1,13 +1,37 @@
 package com.pedrone.products.services;
 
 import com.pedrone.products.domain.Product;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.pedrone.products.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public interface ProductService extends CrudService<Product, String> {
+public class ProductService {
 
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+
+    public Product findById(String id) {
+        return productRepository.findById(id).get();
+    }
+
+
+    public Product save(Product product) {
+        return productRepository.save(product);
+    }
+
+
+    public void deleteById(String id) {
+        productRepository.deleteById(id);
+    }
 }
