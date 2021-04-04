@@ -62,8 +62,13 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") String id){
-        productService.deleteById(id);
+    public ResponseEntity delete(@PathVariable("id") String id){
+        if (productService.findById(id) != null){
+            productService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
