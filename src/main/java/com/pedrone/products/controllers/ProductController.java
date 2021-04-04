@@ -57,13 +57,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable("id") String id, @RequestBody Product product){
-        Product productUpdated = productService.findById(id);
-        productUpdated.setName(product.getName());
-        productUpdated.setDescription(product.getDescription());
-        productUpdated.setPrice(product.getPrice());
+    public ResponseEntity<Product> update(@PathVariable("id") String id, @Valid @RequestBody Product product){
+        Product productUpdated = productService.update(id, product);
 
-        productService.save(productUpdated);
+        if (productUpdated != null){
+            return ResponseEntity.ok(productUpdated);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
