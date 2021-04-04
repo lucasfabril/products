@@ -3,8 +3,10 @@ package com.pedrone.products.bootstrap;
 import com.pedrone.products.domain.Product;
 import com.pedrone.products.services.ProductService;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile("production")
 @Component
 public class DataLoader implements CommandLineRunner {
 
