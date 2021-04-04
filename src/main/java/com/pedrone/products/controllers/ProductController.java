@@ -2,6 +2,7 @@ package com.pedrone.products.controllers;
 
 import com.pedrone.products.domain.Product;
 import com.pedrone.products.services.ProductService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,18 +18,32 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> findAll(){
-        return productService.findAll();
+    public ResponseEntity<List<Product>> findAll(){
+        List<Product> products = productService.findAll();
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{id}")
-    public Product findById(@PathVariable("id") String id){
-        return productService.findById(id);
+    public ResponseEntity<Product> findById(@PathVariable("id") String id){
+        Product product = productService.findById(id);
+        if (product != null){
+            return ResponseEntity.ok(product);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/search")
-    public List<Product> search(){
-        return null;
+    public ResponseEntity<List<Product>> search(@RequestParam(value = "q", required = false) String q,
+                                                @RequestParam(value = "min_price", required = false) Double minPrice,
+                                                @RequestParam(value = "max_price", required = false) Double maxPrice){
+
+        if (q != null) {
+            q = q.toUpperCase();
+        }
+
+        List<Product> products = productService.search(q, minPrice, maxPrice);
+        return ResponseEntity.ok(products);
     }
 
     @PostMapping

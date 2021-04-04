@@ -5,6 +5,7 @@ import com.pedrone.products.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -20,16 +21,23 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-
     public Product findById(String id) {
-        return productRepository.findById(id).get();
+        Optional<Product> product = productRepository.findById(id);
+
+        if(product.isPresent()){
+            return product.get();
+        } else {
+            return null;
+        }
     }
 
+    public List<Product> search(String q, Double minPrice, Double maxPrice){
+        return productRepository.search(q, minPrice, maxPrice);
+    }
 
     public Product save(Product product) {
         return productRepository.save(product);
     }
-
 
     public void deleteById(String id) {
         productRepository.deleteById(id);
