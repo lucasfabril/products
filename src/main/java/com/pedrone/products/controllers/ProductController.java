@@ -4,7 +4,10 @@ import com.pedrone.products.domain.Product;
 import com.pedrone.products.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -47,8 +50,10 @@ public class ProductController {
     }
 
     @PostMapping
-    public void save(@RequestBody Product product){
-        productService.save(product);
+    public ResponseEntity<Product> save(@Valid @RequestBody Product product){
+        Product savedProduct = productService.save(product);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedProduct.getId()).toUri();
+        return ResponseEntity.created(uri).body(savedProduct);
     }
 
     @PutMapping("/{id}")

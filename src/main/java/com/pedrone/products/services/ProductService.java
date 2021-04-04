@@ -36,7 +36,12 @@ public class ProductService {
     }
 
     public Product save(Product product) {
-        return productRepository.save(product);
+        Product savedProduct = Product.builder()
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .build();
+        return productRepository.save(savedProduct);
     }
 
     public void deleteById(String id) {
